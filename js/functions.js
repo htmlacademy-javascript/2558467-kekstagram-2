@@ -35,4 +35,3 @@ let returnNumber = function (str) {
   return normStr;
   };
   */
- 
