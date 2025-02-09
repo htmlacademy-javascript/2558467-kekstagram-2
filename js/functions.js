@@ -7,7 +7,7 @@ const chekPalindrom = (str = '') => {
   for (let i = str.length - 1; i >= 0; i--) {
     result += str.at(i);
   }
- return result === str;
+  return result === str;
 };
 
 const returnNumber = (str = '') => {
