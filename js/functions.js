@@ -1,18 +1,18 @@
 const checkLength = (str = '', maxLength = 1) => str.length <= maxLength;
 
-const chekPalindrom = (str = '') => {
-  str = str.replaceAll('/\s+/g', '').toUpperCase();
+const cheсkPalindrom = (str = '') => {
+  const normStr = str.replaceAll(/\s+/g, '').toUpperCase();
   let result = '';
 
-  for (let i = str.length - 1; i >= 0; i--) {
-    result += str.at(i);
+  for (let i = normStr.length - 1; i >= 0; i--) {
+    result += normStr.at(i);
   }
-  return result === str;
+  return result === normStr;
 };
 
 const returnNumber = (str = '') => {
-  str = str.toString().replaceAll(/\D/g, '');
-  return parseInt(str, 10);
+  const returnStr = str.toString().replaceAll(/\D/g, '');
+  return parseInt(returnStr, 10);
 };
 
 /*
