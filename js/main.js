@@ -1,4 +1,4 @@
-const totalProfiles = 25;
+const TOTAL_PROFILES = 25;
 
 const NAMES = [
   'Дима',
@@ -65,18 +65,22 @@ const getRandomElement = (elements) => elements[getRandom(0, elements.length - 1
 
 // Делаем комментарии
 
+const createComment = (photoIndex, commentIndex) => {
+  return {
+    id: Number(`${photoIndex}${commentIndex}`),
+    avatar: `img/avatar-${getRandom(Avatars.MIN, Avatars.MAX)}.svg`,
+    message: getRandomElement(COMMENTS),
+    name: getRandomElement(NAMES),
+  };
+};
+
 
 const getComments = (photoIndex) => {
   const commentsArray = [];
   const quantityComments = getRandom(Comments.MIN, Comments.MAX);
 
   for (let i = 0; i < quantityComments; i++) {
-    commentsArray.push({
-      id: Number(`${photoIndex}${i}`),
-      avatar: `img/avatar-${getRandom(Avatars.MIN, Avatars.MAX)}.svg`,
-      message: getRandomElement(COMMENTS),
-      name: getRandomElement(NAMES),
-    });
+    commentsArray.push(createComment(photoIndex, i));
   }
 
   return commentsArray;
@@ -88,7 +92,7 @@ const getComments = (photoIndex) => {
 const profilesArray = [];
 
 const getProfile = (index) => {
-  const comments = getComments();
+  const comments = getComments(index);
   return {
     id: index,
     url: `photos/${index}.jpg`,
@@ -98,6 +102,6 @@ const getProfile = (index) => {
   };
 };
 
-for (let i = 1; i <= totalProfiles; i++) {
+for (let i = 1; i <= TOTAL_PROFILES; i++) {
   profilesArray.push(getProfile(i));
 };
