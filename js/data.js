@@ -81,7 +81,22 @@ const getComments = (photoIndex) => {
 
 // Делаем профили
 
-const profilesArray = [];
+
+const getProfile = (index) => ({
+  id: index + 1,
+  url: `photos/${index + 1}.jpg`,
+  description: getRandomElement(DESCRIPTIONS),
+  likes: getRandom(Likes.MIN, Likes.MAX),
+  comments: getComments(index)
+});
+
+const createProfilesArray = () => Array.from({ length: TOTAL_PROFILES }, (_, index) => getProfile(index)
+);
+
+export { createProfilesArray };
+
+
+/*const profilesArray = [];
 
 const getProfile = (index) => {
   const comments = getComments(index);
@@ -99,3 +114,4 @@ for (let i = 1; i <= TOTAL_PROFILES; i++) {
 }
 
 export { profilesArray };
+*/
