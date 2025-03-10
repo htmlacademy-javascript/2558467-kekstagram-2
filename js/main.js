@@ -5,4 +5,5 @@ const arrayProfiles = createProfilesArray;
 const rendersThumbnails = addPictures;
 
 console.log(arrayProfiles());
-console.log(rendersThumbnails(arrayProfiles()));
+addPictures(createProfilesArray());
+
