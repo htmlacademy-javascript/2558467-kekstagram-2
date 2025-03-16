@@ -94,24 +94,3 @@ const createProfilesArray = () => Array.from({ length: TOTAL_PROFILES }, (_, ind
 );
 
 export { createProfilesArray };
-
-
-/*const profilesArray = [];
-
-const getProfile = (index) => {
-  const comments = getComments(index);
-  return {
-    id: index,
-    url: `photos/${index}.jpg`,
-    description: getRandomElement(DESCRIPTIONS),
-    likes: getRandom(Likes.MIN, Likes.MAX),
-    comments: comments,
-  };
-};
-
-for (let i = 1; i <= TOTAL_PROFILES; i++) {
-  profilesArray.push(getProfile(i));
-}
-
-export { profilesArray };
-*/
