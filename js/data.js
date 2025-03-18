@@ -1,6 +1,7 @@
 import { getRandom, getRandomElement } from './util.js';
 
 const TOTAL_ITEM = 25;
+const COMMENTS_PER_PAGE = 5;
 
 const NAMES = [
   'Дима',
@@ -93,4 +94,4 @@ const getProfile = (index) => ({
 const createPhotoArray = () => Array.from({ length: TOTAL_ITEM }, (_, index) => getProfile(index)
 );
 
-export { createPhotoArray };
+export { createPhotoArray, COMMENTS_PER_PAGE };
