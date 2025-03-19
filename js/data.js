@@ -1,6 +1,7 @@
 import { getRandom, getRandomElement } from './util.js';
 
-const TOTAL_PROFILES = 25;
+const TOTAL_ITEM = 25;
+const COMMENTS_PER_PAGE = 5;
 
 const NAMES = [
   'Дима',
@@ -82,7 +83,7 @@ const getComments = (photoIndex) => {
 // Делаем профили
 
 
-const getProfile = (index) => ({
+const getPhoto = (index) => ({
   id: index + 1,
   url: `photos/${index + 1}.jpg`,
   description: getRandomElement(DESCRIPTIONS),
@@ -90,7 +91,7 @@ const getProfile = (index) => ({
   comments: getComments(index)
 });
 
-const createProfilesArray = () => Array.from({ length: TOTAL_PROFILES }, (_, index) => getProfile(index)
+const createPhotoArray = () => Array.from({ length: TOTAL_ITEM }, (_, index) => getPhoto(index)
 );
 
-export { createProfilesArray };
+export { createPhotoArray, COMMENTS_PER_PAGE };

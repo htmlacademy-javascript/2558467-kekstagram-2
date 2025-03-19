@@ -1,5 +1,5 @@
-import { createProfilesArray } from './data.js';
-import { addPictures } from './renders-thumbnails.js';
+import { createPhotoArray } from './data.js';
+import { addPictures } from './render-thumbnails.js';
 
-addPictures(createProfilesArray());
+addPictures(createPhotoArray());
 
