@@ -1,13 +1,14 @@
 import { openFullSizeView } from './fullsize-view.js';
 
-const pictureSample = document.querySelector('#picture').content;
+const pictureSample = document.querySelector('#picture').content.querySelector('.picture');
 const pictures = document.querySelector('.pictures');
 const pictureFragment = document.createDocumentFragment();
 
-const addPictures = (profilesArray) => {
+const addPictures = (photos) => {
+  pictureFragment.textContent = '';
 
-  profilesArray.forEach((profile) => {
-    const { url, description, likes, comments } = profile;
+  photos.forEach((photo) => {
+    const { url, description, likes, comments } = photo;
     const picture = pictureSample.cloneNode(true);
 
     const imgElement = picture.querySelector('.picture__img');
@@ -17,8 +18,8 @@ const addPictures = (profilesArray) => {
     picture.querySelector('.picture__comments').textContent = comments.length;
 
     // Слушатель клика
-    picture.querySelector('.picture').addEventListener('click', () => {
-      openFullSizeView(profile);
+    picture.addEventListener('click', () => {
+      openFullSizeView(photo);
     });
 
     pictureFragment.append(picture);

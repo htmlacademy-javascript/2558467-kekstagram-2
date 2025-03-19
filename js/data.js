@@ -83,7 +83,7 @@ const getComments = (photoIndex) => {
 // Делаем профили
 
 
-const getProfile = (index) => ({
+const getPhoto = (index) => ({
   id: index + 1,
   url: `photos/${index + 1}.jpg`,
   description: getRandomElement(DESCRIPTIONS),
@@ -91,7 +91,7 @@ const getProfile = (index) => ({
   comments: getComments(index)
 });
 
-const createPhotoArray = () => Array.from({ length: TOTAL_ITEM }, (_, index) => getProfile(index)
+const createPhotoArray = () => Array.from({ length: TOTAL_ITEM }, (_, index) => getPhoto(index)
 );
 
 export { createPhotoArray, COMMENTS_PER_PAGE };

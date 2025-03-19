@@ -9,7 +9,6 @@ const commentsContainer = bigPicture.querySelector('.social__comments');
 const photoDescription = bigPicture.querySelector('.social__caption');
 const closeButton = bigPicture.querySelector('.big-picture__cancel');
 
-const commentCountBlock = bigPicture.querySelector('.social__comment-count');
 const commentsLoader = bigPicture.querySelector('.comments-loader');
 
 const body = document.body;
@@ -17,7 +16,7 @@ const body = document.body;
 let currentComments = [];
 let commentsShown = 0;
 
-// Создаёт элемент фотокарточки
+// Создаёт элемент  комментария фотокарточки
 const createCommentElement = ({ avatar, message, name }) => {
   const commentElement = document.createElement('li');
   commentElement.classList.add('social__comment');
@@ -44,21 +43,26 @@ const renderComments = (comments) => {
   commentsContainer.innerHTML = '';
   currentComments = comments;
   commentsShown = 0;
-  commentsLoader.classList.remove('hidden');
 
   loadMoreComments();
+
+  if (currentComments.length > COMMENTS_PER_PAGE) {
+    commentsLoader.classList.remove('hidden');
+  } else {
+    commentsLoader.classList.add('hidden');
+  }
 };
 
 const loadMoreComments = () => {
   const nextComments = currentComments.slice(commentsShown, commentsShown + COMMENTS_PER_PAGE);
-
-  if (commentsShown >= currentComments.length) {
-    commentsLoader.classList.add('hidden');
-  }
   nextComments.forEach(comment => commentsContainer.appendChild(createCommentElement(comment)));
   commentsShown += nextComments.length;
   commentsShownCount.textContent = commentsShown;
   commentsTotalCount.textContent = currentComments.length;
+
+  if (commentsShown >= currentComments.length) {
+    commentsLoader.classList.add('hidden');
+  }
 };
 
 
@@ -83,7 +87,6 @@ const closeFullSizeView = () => {
   bigPicture.classList.add('hidden');
   body.classList.remove('modal-open');
 
-  commentsContainer.innerHTML = '';
   commentsLoader.removeEventListener('click', loadMoreComments);
 
   closeButton.removeEventListener('click', closeFullSizeView);
