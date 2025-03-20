@@ -1,45 +1,47 @@
 import { initValidation, resetValidation } from './validation-form.js';
 
-const uploadForm = document.querySelector('.img-upload__form');
-const pageBody = document.querySelector('body');
+const uploadFormElement = document.querySelector('.img-upload__form');
+const pageBodyElement = document.querySelector('body');
 
-const uploadFileControl = uploadForm.querySelector('#upload-file');
-const photoEditorForm = uploadForm.querySelector('.img-upload__overlay');
-const photoEditorResetBtn = photoEditorForm.querySelector('#upload-cancel');
-const hashtagInput = uploadForm.querySelector('.text__hashtags');
-const commentInput = uploadForm.querySelector('.text__description');
+const uploadFileInputElement = uploadFormElement.querySelector('#upload-file');
+const photoEditorElement = uploadFormElement.querySelector('.img-upload__overlay');
+const photoEditorCloseButtonElement = photoEditorElement.querySelector('#upload-cancel');
+const hashtagInputElement = uploadFormElement.querySelector('.text__hashtags');
+const commentInputElement = uploadFormElement.querySelector('.text__description');
 
 const closePhotoEditor = () => {
-  photoEditorForm.classList.add('hidden');
-  pageBody.classList.remove('modal-open');
+  photoEditorElement.classList.add('hidden');
+  pageBodyElement.classList.remove('modal-open');
+
   document.removeEventListener('keydown', onDocumentKeydown);
-  photoEditorResetBtn.removeEventListener('click', onPhotoEditorResetBtnClick);
-  uploadFileControl.value = '';
+  photoEditorCloseButtonElement.removeEventListener('click', onPhotoEditorCloseButtonClick);
+
+  uploadFileInputElement.value = '';
   resetValidation();
 };
 
 const onDocumentKeydown = (evt) => {
   if (evt.key === 'Escape') {
-    if (document.activeElement === hashtagInput || document.activeElement === commentInput) {
+    if (document.activeElement === hashtagInputElement || document.activeElement === commentInputElement) {
       evt.stopPropagation();
     } else {
-      uploadForm.reset();
+      uploadFormElement.reset();
       closePhotoEditor();
     }
   }
 };
 
-const onPhotoEditorResetBtnClick = () => closePhotoEditor();
-
+const onPhotoEditorCloseButtonClick = () => closePhotoEditor();
 
 const initUploadModal = () => {
-  uploadFileControl.addEventListener('change', () => {
+  uploadFileInputElement.addEventListener('change', () => {
     resetValidation();
     initValidation();
 
-    photoEditorForm.classList.remove('hidden');
-    pageBody.classList.add('modal-open');
-    photoEditorResetBtn.addEventListener('click', onPhotoEditorResetBtnClick);
+    photoEditorElement.classList.remove('hidden');
+    pageBodyElement.classList.add('modal-open');
+
+    photoEditorCloseButtonElement.addEventListener('click', onPhotoEditorCloseButtonClick);
     document.addEventListener('keydown', onDocumentKeydown);
   });
 };
