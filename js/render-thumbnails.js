@@ -1,31 +1,31 @@
 import { openFullSizeView } from './fullsize-view.js';
 
-const pictureSample = document.querySelector('#picture').content.querySelector('.picture');
-const pictures = document.querySelector('.pictures');
-const pictureFragment = document.createDocumentFragment();
+const pictureTemplateElement = document.querySelector('#picture').content.querySelector('.picture');
+const picturesContainerElement = document.querySelector('.pictures');
+const pictureFragmentElement = document.createDocumentFragment();
 
 const addPictures = (photos) => {
-  pictureFragment.textContent = '';
+  pictureFragmentElement.textContent = '';
 
   photos.forEach((photo) => {
     const { url, description, likes, comments } = photo;
-    const picture = pictureSample.cloneNode(true);
+    const pictureElement = pictureTemplateElement.cloneNode(true);
 
-    const imgElement = picture.querySelector('.picture__img');
-    imgElement.src = url;
-    imgElement.alt = description;
-    picture.querySelector('.picture__likes').textContent = likes;
-    picture.querySelector('.picture__comments').textContent = comments.length;
+    const imageElement = pictureElement.querySelector('.picture__img');
+    imageElement.src = url;
+    imageElement.alt = description;
+    pictureElement.querySelector('.picture__likes').textContent = likes;
+    pictureElement.querySelector('.picture__comments').textContent = comments.length;
 
     // Слушатель клика
-    picture.addEventListener('click', () => {
+    pictureElement.addEventListener('click', () => {
       openFullSizeView(photo);
     });
 
-    pictureFragment.append(picture);
+    pictureFragmentElement.appendChild(pictureElement);
   });
 
-  pictures.append(pictureFragment);
+  picturesContainerElement.appendChild(pictureFragmentElement);
 };
 
 export { addPictures };
