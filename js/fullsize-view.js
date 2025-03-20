@@ -1,17 +1,17 @@
 import { COMMENTS_PER_PAGE } from './data.js';
 
-const bigPicture = document.querySelector('.big-picture');
-const bigPictureImage = bigPicture.querySelector('.big-picture__img img');
-const likesCount = bigPicture.querySelector('.likes-count');
-const commentsShownCount = bigPicture.querySelector('.social__comment-shown-count');
-const commentsTotalCount = bigPicture.querySelector('.social__comment-total-count');
-const commentsContainer = bigPicture.querySelector('.social__comments');
-const photoDescription = bigPicture.querySelector('.social__caption');
-const closeButton = bigPicture.querySelector('.big-picture__cancel');
+const bigPictureElement = document.querySelector('.big-picture');
+const bigPictureImageElement = bigPictureElement.querySelector('.big-picture__img img');
+const likesCountElement = bigPictureElement.querySelector('.likes-count');
+const commentsShownCountElement = bigPictureElement.querySelector('.social__comment-shown-count');
+const commentsTotalCountElement = bigPictureElement.querySelector('.social__comment-total-count');
+const commentsContainerElement = bigPictureElement.querySelector('.social__comments');
+const photoDescriptionElement = bigPictureElement.querySelector('.social__caption');
+const closeButtonElement = bigPictureElement.querySelector('.big-picture__cancel');
 
-const commentsLoader = bigPicture.querySelector('.comments-loader');
+const commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
 
-const body = document.body;
+const bodyElement = document.body;
 
 let currentComments = [];
 let commentsShown = 0;
@@ -40,56 +40,55 @@ const createCommentElement = ({ avatar, message, name }) => {
 // Делает комментарии
 
 const renderComments = (comments) => {
-  commentsContainer.innerHTML = '';
+  commentsContainerElement.innerHTML = '';
   currentComments = comments;
   commentsShown = 0;
 
   loadMoreComments();
 
-  if (currentComments.length > COMMENTS_PER_PAGE) {
-    commentsLoader.classList.remove('hidden');
-  } else {
-    commentsLoader.classList.add('hidden');
-  }
+  commentsLoaderElement.classList.toggle('hidden', currentComments.length <= COMMENTS_PER_PAGE);
 };
 
 const loadMoreComments = () => {
   const nextComments = currentComments.slice(commentsShown, commentsShown + COMMENTS_PER_PAGE);
-  nextComments.forEach(comment => commentsContainer.appendChild(createCommentElement(comment)));
+
+  const fragment = document.createDocumentFragment();
+  nextComments.forEach(comment => fragment.appendChild(createCommentElement(comment)));
+  commentsContainerElement.appendChild(fragment);
+
   commentsShown += nextComments.length;
-  commentsShownCount.textContent = commentsShown;
-  commentsTotalCount.textContent = currentComments.length;
+  commentsShownCountElement.textContent = commentsShown;
+  commentsTotalCountElement.textContent = currentComments.length;
 
   if (commentsShown >= currentComments.length) {
-    commentsLoader.classList.add('hidden');
+    commentsLoaderElement.classList.add('hidden');
   }
 };
 
 
 // Открывает окно
 const openFullSizeView = ({ url, likes, comments, description }) => {
-  bigPicture.classList.remove('hidden');
-  body.classList.add('modal-open');
+  bigPictureElement.classList.remove('hidden');
+  bodyElement.classList.add('modal-open');
 
-  bigPictureImage.src = url;
-  likesCount.textContent = likes;
-  photoDescription.textContent = description;
+  bigPictureImageElement.src = url;
+  likesCountElement.textContent = likes;
+  photoDescriptionElement.textContent = description;
 
   renderComments(comments);
 
-  commentsLoader.addEventListener('click', loadMoreComments);
-  closeButton.addEventListener('click', closeFullSizeView);
+  commentsLoaderElement.addEventListener('click', loadMoreComments);
+  closeButtonElement.addEventListener('click', closeFullSizeView);
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
 // Закрывает окно
 const closeFullSizeView = () => {
-  bigPicture.classList.add('hidden');
-  body.classList.remove('modal-open');
+  bigPictureElement.classList.add('hidden');
+  bodyElement.classList.remove('modal-open');
 
-  commentsLoader.removeEventListener('click', loadMoreComments);
-
-  closeButton.removeEventListener('click', closeFullSizeView);
+  commentsLoaderElement.removeEventListener('click', loadMoreComments);
+  closeButtonElement.removeEventListener('click', closeFullSizeView);
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
