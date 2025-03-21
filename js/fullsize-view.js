@@ -39,21 +39,11 @@ const createCommentElement = ({ avatar, message, name }) => {
 
 // Делает комментарии
 
-const renderComments = (comments) => {
-  commentsContainerElement.innerHTML = '';
-  currentComments = comments;
-  commentsShown = 0;
-
-  loadMoreComments();
-
-  commentsLoaderElement.classList.toggle('hidden', currentComments.length <= COMMENTS_PER_PAGE);
-};
-
 const loadMoreComments = () => {
   const nextComments = currentComments.slice(commentsShown, commentsShown + COMMENTS_PER_PAGE);
 
   const fragment = document.createDocumentFragment();
-  nextComments.forEach(comment => fragment.appendChild(createCommentElement(comment)));
+  nextComments.forEach((comment) => fragment.appendChild(createCommentElement(comment)));
   commentsContainerElement.appendChild(fragment);
 
   commentsShown += nextComments.length;
@@ -65,6 +55,31 @@ const loadMoreComments = () => {
   }
 };
 
+const renderComments = (comments) => {
+  commentsContainerElement.innerHTML = '';
+  currentComments = comments;
+  commentsShown = 0;
+
+  loadMoreComments();
+
+  commentsLoaderElement.classList.toggle('hidden', currentComments.length <= COMMENTS_PER_PAGE);
+};
+
+const onDocumentKeydown = (evt) => {
+  if (evt.key === 'Escape') {
+    closeFullSizeView();
+  }
+};
+
+// Закрывает окно
+const closeFullSizeView = () => {
+  bigPictureElement.classList.add('hidden');
+  bodyElement.classList.remove('modal-open');
+
+  commentsLoaderElement.removeEventListener('click', loadMoreComments);
+  closeButtonElement.removeEventListener('click', closeFullSizeView);
+  document.removeEventListener('keydown', onDocumentKeydown);
+};
 
 // Открывает окно
 const openFullSizeView = ({ url, likes, comments, description }) => {
@@ -82,20 +97,5 @@ const openFullSizeView = ({ url, likes, comments, description }) => {
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-// Закрывает окно
-const closeFullSizeView = () => {
-  bigPictureElement.classList.add('hidden');
-  bodyElement.classList.remove('modal-open');
-
-  commentsLoaderElement.removeEventListener('click', loadMoreComments);
-  closeButtonElement.removeEventListener('click', closeFullSizeView);
-  document.removeEventListener('keydown', onDocumentKeydown);
-};
-
-const onDocumentKeydown = (evt) => {
-  if (evt.key === 'Escape') {
-    closeFullSizeView();
-  }
-};
 
 export { openFullSizeView };

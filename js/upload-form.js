@@ -47,5 +47,3 @@ const initUploadModal = () => {
 };
 
 initUploadModal();
-
-export { initUploadModal };

@@ -58,14 +58,12 @@ const Comments = {
 
 // Делаем комментарии
 
-const createComment = (photoIndex, commentIndex) => {
-  return {
-    id: Number(`${photoIndex}${commentIndex}`),
-    avatar: `img/avatar-${getRandom(Avatars.MIN, Avatars.MAX)}.svg`,
-    message: getRandomElement(COMMENTS),
-    name: getRandomElement(NAMES),
-  };
-};
+const createComment = (photoIndex, commentIndex) => ({
+  id: Number(`${photoIndex}${commentIndex}`),
+  avatar: `img/avatar-${getRandom(Avatars.MIN, Avatars.MAX)}.svg`,
+  message: getRandomElement(COMMENTS),
+  name: getRandomElement(NAMES),
+});
 
 
 const getComments = (photoIndex) => {
@@ -91,7 +89,7 @@ const getPhoto = (index) => ({
   comments: getComments(index)
 });
 
-const createPhotoArray = () => Array.from({ length: TOTAL_ITEM }, (_, index) => getPhoto(index)
-);
+const createPhotoArray = () =>
+  Array.from({ length: TOTAL_ITEM }, (_, index) => getPhoto(index));
 
 export { createPhotoArray, COMMENTS_PER_PAGE };
