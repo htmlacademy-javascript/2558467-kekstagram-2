@@ -1,4 +1,5 @@
-import { initValidation, resetValidation } from './validation-form.js';
+import { initValidation, resetValidation, pristine } from './validation-form.js';
+import { resetEffects } from './effect.js';
 
 const uploadFormElement = document.querySelector('.img-upload__form');
 const pageBodyElement = document.querySelector('body');
@@ -20,17 +21,6 @@ const clearFormFields = () => {
   commentWrapper?.classList.remove('img-upload__field-wrapper--error');
 };
 
-const closePhotoEditor = () => {
-  photoEditorElement.classList.add('hidden');
-  pageBodyElement.classList.remove('modal-open');
-
-  document.removeEventListener('keydown', onDocumentKeydown);
-  photoEditorCloseButtonElement.removeEventListener('click', onPhotoEditorCloseButtonClick);
-
-  uploadFileInputElement.value = '';
-  resetValidation();
-  clearFormFields();
-};
 
 const onDocumentKeydown = (evt) => {
   if (evt.key === 'Escape') {
@@ -58,5 +48,29 @@ const initUploadModal = () => {
     document.addEventListener('keydown', onDocumentKeydown);
   });
 };
+
+function closePhotoEditor() {
+  photoEditorElement.classList.add('hidden');
+  pageBodyElement.classList.remove('modal-open');
+
+  document.removeEventListener('keydown', onDocumentKeydown);
+  photoEditorCloseButtonElement.removeEventListener('click', onPhotoEditorCloseButtonClick);
+
+  resetEffects();
+
+  uploadFileInputElement.value = '';
+  resetValidation();
+  clearFormFields();
+}
+
+const onFormSubmit = (event) => {
+  const isValid = pristine.validate();
+
+  if (!isValid) {
+    event.preventDefault();
+  }
+};
+
+uploadFormElement.addEventListener('submit', onFormSubmit);
 
 initUploadModal();

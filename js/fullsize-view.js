@@ -16,6 +16,7 @@ const bodyElement = document.body;
 let currentComments = [];
 let commentsShown = 0;
 
+
 // Создаёт элемент  комментария фотокарточки
 const createCommentElement = ({ avatar, message, name }) => {
   const commentElement = document.createElement('li');
@@ -55,6 +56,22 @@ const loadMoreComments = () => {
   }
 };
 
+// Закрывает окно
+const closeFullSizeView = () => {
+  bigPictureElement.classList.add('hidden');
+  bodyElement.classList.remove('modal-open');
+
+  commentsLoaderElement.removeEventListener('click', loadMoreComments);
+  closeButtonElement.removeEventListener('click', closeFullSizeView);
+  document.removeEventListener('keydown', onDocumentKeydown);
+};
+
+function onDocumentKeydown(evt) {
+  if (evt.key === 'Escape') {
+    closeFullSizeView();
+  }
+}
+
 const renderComments = (comments) => {
   commentsContainerElement.innerHTML = '';
   currentComments = comments;
@@ -65,21 +82,6 @@ const renderComments = (comments) => {
   commentsLoaderElement.classList.toggle('hidden', currentComments.length <= COMMENTS_PER_PAGE);
 };
 
-const onDocumentKeydown = (evt) => {
-  if (evt.key === 'Escape') {
-    closeFullSizeView();
-  }
-};
-
-// Закрывает окно
-const closeFullSizeView = () => {
-  bigPictureElement.classList.add('hidden');
-  bodyElement.classList.remove('modal-open');
-
-  commentsLoaderElement.removeEventListener('click', loadMoreComments);
-  closeButtonElement.removeEventListener('click', closeFullSizeView);
-  document.removeEventListener('keydown', onDocumentKeydown);
-};
 
 // Открывает окно
 const openFullSizeView = ({ url, likes, comments, description }) => {

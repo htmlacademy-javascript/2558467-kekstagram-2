@@ -86,7 +86,6 @@ const initValidation = () => {
 const resetValidation = () => {
   errorMessage = '';
   pristine.reset();
-  pristine.validate();
 };
 
-export { initValidation, resetValidation, };
+export { initValidation, resetValidation, pristine};

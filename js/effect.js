@@ -4,7 +4,7 @@ const effectsElements = document.querySelectorAll('.effects__radio');
 const effectContainerElement = document.querySelector('.img-upload__effect-level');
 const imgPreviewElement = document.querySelector('.img-upload__preview img');
 
-const effectsConfig = {
+const EFFECTS_MAP = {
   chrome: { filter: 'grayscale', min: 0, max: 1, step: 0.1, unit: '' },
   sepia: { filter: 'sepia', min: 0, max: 1, step: 0.1, unit: '' },
   marvin: { filter: 'invert', min: 0, max: 100, step: 1, unit: '%' },
@@ -18,7 +18,7 @@ const updateEffect = (effect) => {
     effectContainerElement.classList.add('hidden');
     imgPreviewElement.style.filter = '';
   } else {
-    const config = effectsConfig[effect];
+    const config = EFFECTS_MAP[effect];
     effectContainerElement.classList.remove('hidden');
     effectLevelSliderElement.noUiSlider.updateOptions({
       range: { min: config.min, max: config.max },
@@ -28,6 +28,27 @@ const updateEffect = (effect) => {
     imgPreviewElement.style.filter = `${config.filter}(${config.max}${config.unit})`;
   }
 };
+
+const resetEffects = () => {
+  imgPreviewElement.style.filter = '';
+  imgPreviewElement.style.transform = '';
+
+  if (effectLevelSliderElement && effectLevelSliderElement.noUiSlider) {
+    effectLevelSliderElement.noUiSlider.set(0);
+  }
+
+  if (effectLevelValueElement) {
+    effectLevelValueElement.value = 0;
+  }
+
+  const defaultEffect = document.querySelector('#effect-none');
+  if (defaultEffect) {
+    defaultEffect.checked = true;
+  }
+
+  effectContainerElement.classList.add('hidden');
+};
+
 
 const initEffects = () => {
   noUiSlider.create(effectLevelSliderElement, {
@@ -46,7 +67,7 @@ const initEffects = () => {
   effectLevelSliderElement.noUiSlider.on('update', (values) => {
     const effect = document.querySelector('.effects__radio:checked').value;
     if (effect !== 'none') {
-      const config = effectsConfig[effect];
+      const config = EFFECTS_MAP[effect];
       effectLevelValueElement.value = values[0];
       imgPreviewElement.style.filter = `${config.filter}(${values[0]}${config.unit})`;
     }
@@ -56,4 +77,4 @@ const initEffects = () => {
 };
 
 
-export { initEffects };
+export { initEffects, resetEffects };
