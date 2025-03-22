@@ -9,6 +9,17 @@ const photoEditorCloseButtonElement = photoEditorElement.querySelector('#upload-
 const hashtagInputElement = uploadFormElement.querySelector('.text__hashtags');
 const commentInputElement = uploadFormElement.querySelector('.text__description');
 
+const clearFormFields = () => {
+  hashtagInputElement.value = '';
+  commentInputElement.value = '';
+
+  const hashtagWrapper = hashtagInputElement.closest('.img-upload__field-wrapper');
+  const commentWrapper = commentInputElement.closest('.img-upload__field-wrapper');
+
+  hashtagWrapper?.classList.remove('img-upload__field-wrapper--error');
+  commentWrapper?.classList.remove('img-upload__field-wrapper--error');
+};
+
 const closePhotoEditor = () => {
   photoEditorElement.classList.add('hidden');
   pageBodyElement.classList.remove('modal-open');
@@ -18,6 +29,7 @@ const closePhotoEditor = () => {
 
   uploadFileInputElement.value = '';
   resetValidation();
+  clearFormFields();
 };
 
 const onDocumentKeydown = (evt) => {
@@ -37,6 +49,7 @@ const initUploadModal = () => {
   uploadFileInputElement.addEventListener('change', () => {
     resetValidation();
     initValidation();
+    clearFormFields();
 
     photoEditorElement.classList.remove('hidden');
     pageBodyElement.classList.add('modal-open');

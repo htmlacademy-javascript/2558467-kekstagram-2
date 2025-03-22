@@ -5,6 +5,7 @@ const MAX_HASHTAG_COUNT = 5;
 const MAX_COMMENT_LENGTH = 140;
 
 let errorMessage = '';
+let isValidationInitialized = false;
 
 const uploadFormElement = document.querySelector('.img-upload__form');
 const hashtagInputElement = uploadFormElement.querySelector('.text__hashtags');
@@ -24,7 +25,7 @@ const isHashtagsValid = (value) => {
   const fieldWrapper = hashtagInputElement.closest('.img-upload__field-wrapper');
 
   if (inputText.length === 0) {
-    fieldWrapper.classList.remove('img-upload__field-wrapper--error');
+    fieldWrapper.classList.toggle('img-upload__field-wrapper--error');
     return true;
   }
 
@@ -74,16 +75,18 @@ const isHashtagsValid = (value) => {
 };
 
 const initValidation = () => {
-  pristine.addValidator(
-    commentInputElement,
-    (value) => value.length <= MAX_COMMENT_LENGTH,
-    `Длина комментария не должна превышать ${MAX_COMMENT_LENGTH} символов`
-  );
-  pristine.addValidator(hashtagInputElement, isHashtagsValid, getErrorMessage, false);
+  if (!isValidationInitialized) {
+    pristine.addValidator(commentInputElement, (value) => value.length <= MAX_COMMENT_LENGTH, `Длина комментария не должна превышать ${MAX_COMMENT_LENGTH} символов`);
+    pristine.addValidator(hashtagInputElement, isHashtagsValid, getErrorMessage, false);
+    isValidationInitialized = true;
+  }
 };
+
 
 const resetValidation = () => {
+  errorMessage = '';
   pristine.reset();
+  pristine.validate();
 };
 
-export { initValidation, resetValidation };
+export { initValidation, resetValidation, };
