@@ -1,5 +1,6 @@
 import { initValidation, resetValidation, pristine } from './validation-form.js';
 import { resetEffects } from './effect.js';
+import { resetScale } from './scale.js';
 
 const uploadFormElement = document.querySelector('.img-upload__form');
 const pageBodyElement = document.querySelector('body');
@@ -57,6 +58,7 @@ function closePhotoEditor() {
   photoEditorCloseButtonElement.removeEventListener('click', onPhotoEditorCloseButtonClick);
 
   resetEffects();
+  resetScale();
 
   uploadFileInputElement.value = '';
   resetValidation();
