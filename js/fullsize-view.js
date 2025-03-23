@@ -16,6 +16,7 @@ const bodyElement = document.body;
 let currentComments = [];
 let commentsShown = 0;
 
+
 // Создаёт элемент  комментария фотокарточки
 const createCommentElement = ({ avatar, message, name }) => {
   const commentElement = document.createElement('li');
@@ -39,21 +40,11 @@ const createCommentElement = ({ avatar, message, name }) => {
 
 // Делает комментарии
 
-const renderComments = (comments) => {
-  commentsContainerElement.innerHTML = '';
-  currentComments = comments;
-  commentsShown = 0;
-
-  loadMoreComments();
-
-  commentsLoaderElement.classList.toggle('hidden', currentComments.length <= COMMENTS_PER_PAGE);
-};
-
 const loadMoreComments = () => {
   const nextComments = currentComments.slice(commentsShown, commentsShown + COMMENTS_PER_PAGE);
 
   const fragment = document.createDocumentFragment();
-  nextComments.forEach(comment => fragment.appendChild(createCommentElement(comment)));
+  nextComments.forEach((comment) => fragment.appendChild(createCommentElement(comment)));
   commentsContainerElement.appendChild(fragment);
 
   commentsShown += nextComments.length;
@@ -63,6 +54,32 @@ const loadMoreComments = () => {
   if (commentsShown >= currentComments.length) {
     commentsLoaderElement.classList.add('hidden');
   }
+};
+
+// Закрывает окно
+const closeFullSizeView = () => {
+  bigPictureElement.classList.add('hidden');
+  bodyElement.classList.remove('modal-open');
+
+  commentsLoaderElement.removeEventListener('click', loadMoreComments);
+  closeButtonElement.removeEventListener('click', closeFullSizeView);
+  document.removeEventListener('keydown', onDocumentKeydown);
+};
+
+function onDocumentKeydown(evt) {
+  if (evt.key === 'Escape') {
+    closeFullSizeView();
+  }
+}
+
+const renderComments = (comments) => {
+  commentsContainerElement.innerHTML = '';
+  currentComments = comments;
+  commentsShown = 0;
+
+  loadMoreComments();
+
+  commentsLoaderElement.classList.toggle('hidden', currentComments.length <= COMMENTS_PER_PAGE);
 };
 
 
@@ -82,20 +99,5 @@ const openFullSizeView = ({ url, likes, comments, description }) => {
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-// Закрывает окно
-const closeFullSizeView = () => {
-  bigPictureElement.classList.add('hidden');
-  bodyElement.classList.remove('modal-open');
-
-  commentsLoaderElement.removeEventListener('click', loadMoreComments);
-  closeButtonElement.removeEventListener('click', closeFullSizeView);
-  document.removeEventListener('keydown', onDocumentKeydown);
-};
-
-const onDocumentKeydown = (evt) => {
-  if (evt.key === 'Escape') {
-    closeFullSizeView();
-  }
-};
 
 export { openFullSizeView };
