@@ -1,4 +1,4 @@
-import { COMMENTS_PER_PAGE } from './data.js';
+const COMMENTS_PER_PAGE = 5;
 
 const bigPictureElement = document.querySelector('.big-picture');
 const bigPictureImageElement = bigPictureElement.querySelector('.big-picture__img img');

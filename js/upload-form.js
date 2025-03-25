@@ -1,6 +1,7 @@
 import { initValidation, resetValidation, pristine } from './validation-form.js';
 import { resetEffects } from './effect.js';
 import { resetScale } from './scale.js';
+import { sendData } from './send-data.js';
 
 const uploadFormElement = document.querySelector('.img-upload__form');
 const pageBodyElement = document.querySelector('body');
@@ -34,8 +35,6 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-const onPhotoEditorCloseButtonClick = () => closePhotoEditor();
-
 const initUploadModal = () => {
   uploadFileInputElement.addEventListener('change', () => {
     resetValidation();
@@ -45,17 +44,18 @@ const initUploadModal = () => {
     photoEditorElement.classList.remove('hidden');
     pageBodyElement.classList.add('modal-open');
 
-    photoEditorCloseButtonElement.addEventListener('click', onPhotoEditorCloseButtonClick);
+    photoEditorCloseButtonElement.addEventListener('click', closePhotoEditor);
     document.addEventListener('keydown', onDocumentKeydown);
   });
 };
+
 
 function closePhotoEditor() {
   photoEditorElement.classList.add('hidden');
   pageBodyElement.classList.remove('modal-open');
 
   document.removeEventListener('keydown', onDocumentKeydown);
-  photoEditorCloseButtonElement.removeEventListener('click', onPhotoEditorCloseButtonClick);
+  photoEditorCloseButtonElement.removeEventListener('click', closePhotoEditor);
 
   resetEffects();
   resetScale();
@@ -65,14 +65,25 @@ function closePhotoEditor() {
   clearFormFields();
 }
 
-const onFormSubmit = (event) => {
+const resetForm = () => {
+  uploadFormElement.reset();
+  document.querySelector('.img-upload__preview img').src = '';
+  document.querySelector('.scale__control--value').value = '100%';
+  document.querySelector('#effect-none').checked = true;
+  closePhotoEditor();
+};
+
+uploadFormElement.addEventListener('submit', (event) => {
+  event.preventDefault();
   const isValid = pristine.validate();
 
   if (!isValid) {
-    event.preventDefault();
+    return;
   }
-};
 
-uploadFormElement.addEventListener('submit', onFormSubmit);
+  sendData(new FormData(uploadFormElement));
+});
 
 initUploadModal();
+
+export { resetForm };
