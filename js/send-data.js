@@ -2,6 +2,25 @@ import { postData } from './api.js';
 import { resetForm } from './upload-form.js';
 
 
+// Блокирует кнопку во вркмя отправки
+
+const formSubmitButton = document.querySelector('.img-upload__submit');
+
+const SubmitButtonText = {
+  IDLE: 'Сохранить',
+  SENDING: 'Сохраняю...',
+};
+
+const disabledButton = (text) => {
+  formSubmitButton.disabled = true;
+  formSubmitButton.textContent = text;
+};
+
+const enableButton = (text) => {
+  formSubmitButton.disabled = true;
+  formSubmitButton.textContent = text;
+};
+
 // Показывает сообщение об успехе
 
 const showSuccessMessage = () => {
@@ -38,12 +57,16 @@ const showSuccessMessage = () => {
 
 // Покажет сообщение об ошибке при отправке
 
-const showErrorMessage = () => {
+const showErrorMessage = (message) => {
   const errorTemplate = document.querySelector('#error').content.cloneNode(true);
   document.body.append(errorTemplate);
 
   const errorElement = document.querySelector('.error');
-  const closeButtonElement = errorElement.querySelector('.error__button');
+  const repeatButtonElement = errorElement.querySelector('.error__button');
+  const errorTitle = errorElement.querySelector('.error__title');
+
+  errorTitle.style.lineHeight = '30px';
+  errorTitle.textContent += ` : ${message}`;
 
   const onEscPress = (event) => {
     if (event.key === 'Escape') {
@@ -63,7 +86,7 @@ const showErrorMessage = () => {
     document.removeEventListener('click', onOutsideClick);
   };
 
-  closeButtonElement.addEventListener('click', closeErrorMessage);
+  repeatButtonElement.addEventListener('click', closeErrorMessage);
   document.addEventListener('keydown', onEscPress);
   document.addEventListener('click', onOutsideClick);
 };
@@ -74,12 +97,14 @@ const showErrorMessage = () => {
 const sendData = async (formData) => {
   const submitButtonElement = document.querySelector('.img-upload__submit');
   try {
+    disabledButton(SubmitButtonText.SENDING);
     await postData(formData);
+    enableButton(SubmitButtonText.IDLE);
     showSuccessMessage();
     resetForm();
   } catch (error) {
     //console.error(error);
-    showErrorMessage();
+    showErrorMessage(error.message);
   } finally {
     submitButtonElement.disabled = false;
   }

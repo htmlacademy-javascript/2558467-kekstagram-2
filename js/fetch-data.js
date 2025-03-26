@@ -2,14 +2,17 @@ import { fetchData } from './api.js';
 
 // Покажет сообщение об ошибке при загрузке
 
-const showDataErrorMessage = () => {
+const showDataErrorMessage = (message) => {
   const errorTemplate = document.querySelector('#data-error').content.cloneNode(true);
+  const errorMessageElement = errorTemplate.querySelector('.data-error');
+  const errorTitle = errorMessageElement.querySelector('.data-error__title');
+
+  errorTitle.textContent += ` : ${message}`;
   document.body.append(errorTemplate);
 
   setTimeout(() => {
-    const errorMessage = document.querySelector('.data-error');
-    if (errorMessage) {
-      errorMessage.remove();
+    if (errorMessageElement) {
+      errorMessageElement.remove();
     }
   }, 5000);
 };
@@ -19,7 +22,7 @@ const getData = async () => {
     return await fetchData();
   } catch (error) {
     //console.error(error);
-    showDataErrorMessage();
+    showDataErrorMessage(error.message);
   }
 };
 

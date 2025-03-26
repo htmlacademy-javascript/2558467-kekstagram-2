@@ -86,4 +86,4 @@ uploadFormElement.addEventListener('submit', (event) => {
 
 initUploadModal();
 
-export { resetForm };
+export { resetForm, uploadFormElement };
