@@ -1,4 +1,4 @@
-const API_URL = 'https://31.javascript.htmlacademy.pro/kestagram';
+const API_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
 
 const fetchData = async () => {
   const response = await fetch(`${API_URL}/data`);
