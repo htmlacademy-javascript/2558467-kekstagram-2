@@ -7,17 +7,12 @@ import { resetForm } from './upload-form.js';
 const formSubmitButton = document.querySelector('.img-upload__submit');
 
 const SubmitButtonText = {
-  IDLE: 'Сохранить',
+  IDLE: 'Опубликовать',
   SENDING: 'Сохраняю...',
 };
 
-const disabledButton = (text) => {
-  formSubmitButton.disabled = true;
-  formSubmitButton.textContent = text;
-};
-
-const enableButton = (text) => {
-  formSubmitButton.disabled = true;
+const disabledButton = (text, isDisabled) => {
+  formSubmitButton.disabled = isDisabled;
   formSubmitButton.textContent = text;
 };
 
@@ -31,13 +26,13 @@ const showSuccessMessage = () => {
   const closeButton = successElement.querySelector('.success__button');
 
 
-  const onEscPress = (event) => {
+  const closeSuccessMessageOnEsc = (event) => {
     if (event.key === 'Escape') {
       closeSuccessMessage();
     }
   };
 
-  const onOutsideClick = (event) => {
+  const closeSuccessMessageOnClick = (event) => {
     if (!event.target.closest('.success__inner')) {
       closeSuccessMessage();
     }
@@ -45,13 +40,13 @@ const showSuccessMessage = () => {
 
   const closeSuccessMessage = () => {
     successElement.remove();
-    document.removeEventListener('keydown', onEscPress);
-    document.removeEventListener('click', onOutsideClick);
+    document.removeEventListener('keydown', closeSuccessMessageOnEsc);
+    document.removeEventListener('click', closeSuccessMessageOnClick);
   };
 
   closeButton.addEventListener('click', closeSuccessMessage);
-  document.addEventListener('keydown', onEscPress);
-  document.addEventListener('click', onOutsideClick);
+  document.addEventListener('keydown', closeSuccessMessageOnEsc);
+  document.addEventListener('click', closeSuccessMessageOnClick);
 };
 
 
@@ -68,13 +63,13 @@ const showErrorMessage = (message) => {
   errorTitle.style.lineHeight = '30px';
   errorTitle.textContent += ` : ${message}`;
 
-  const onEscPress = (event) => {
+  const closeErrorMessageOnEsc = (event) => {
     if (event.key === 'Escape') {
       closeErrorMessage();
     }
   };
 
-  const onOutsideClick = (event) => {
+  const closeErrorMessageOnClick = (event) => {
     if (!event.target.closest('.error__inner')) {
       closeErrorMessage();
     }
@@ -82,13 +77,13 @@ const showErrorMessage = (message) => {
 
   const closeErrorMessage = () => {
     errorElement.remove();
-    document.removeEventListener('keydown', onEscPress);
-    document.removeEventListener('click', onOutsideClick);
+    document.removeEventListener('keydown', closeErrorMessageOnEsc);
+    document.removeEventListener('click', closeErrorMessageOnClick);
   };
 
   repeatButtonElement.addEventListener('click', closeErrorMessage);
-  document.addEventListener('keydown', onEscPress);
-  document.addEventListener('click', onOutsideClick);
+  document.addEventListener('keydown', closeErrorMessageOnEsc);
+  document.addEventListener('click', closeErrorMessageOnClick);
 };
 
 
@@ -97,13 +92,14 @@ const showErrorMessage = (message) => {
 const sendData = async (formData) => {
   const submitButtonElement = document.querySelector('.img-upload__submit');
   try {
-    disabledButton(SubmitButtonText.SENDING);
+    disabledButton(SubmitButtonText.SENDING, true);
     await postData(formData);
-    enableButton(SubmitButtonText.IDLE);
+    disabledButton(SubmitButtonText.IDLE, false);
     showSuccessMessage();
     resetForm();
   } catch (error) {
     //console.error(error);
+    disabledButton(SubmitButtonText.IDLE, false);
     showErrorMessage(error.message);
   } finally {
     submitButtonElement.disabled = false;

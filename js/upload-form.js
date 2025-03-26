@@ -26,6 +26,13 @@ const clearFormFields = () => {
 
 const onDocumentKeydown = (evt) => {
   if (evt.key === 'Escape') {
+    const errorMessage = document.querySelector('.error');
+
+    if (errorMessage) {
+      errorMessage.remove();
+      return;
+    }
+
     if (document.activeElement === hashtagInputElement || document.activeElement === commentInputElement) {
       evt.stopPropagation();
     } else {
@@ -67,7 +74,6 @@ function closePhotoEditor() {
 
 const resetForm = () => {
   uploadFormElement.reset();
-  document.querySelector('.img-upload__preview img').src = '';
   document.querySelector('.scale__control--value').value = '100%';
   document.querySelector('#effect-none').checked = true;
   closePhotoEditor();
