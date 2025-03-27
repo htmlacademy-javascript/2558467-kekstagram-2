@@ -44,8 +44,8 @@ const loadMoreComments = () => {
   const nextComments = currentComments.slice(commentsShown, commentsShown + COMMENTS_PER_PAGE);
 
   const fragment = document.createDocumentFragment();
-  nextComments.forEach((comment) => fragment.appendChild(createCommentElement(comment)));
-  commentsContainerElement.appendChild(fragment);
+  nextComments.forEach((comment) => fragment.append(createCommentElement(comment)));
+  commentsContainerElement.append(fragment);
 
   commentsShown += nextComments.length;
   commentsShownCountElement.textContent = commentsShown;

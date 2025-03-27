@@ -11,7 +11,7 @@ const SubmitButtonText = {
   SENDING: 'Сохраняю...',
 };
 
-const disabledButton = (text, isDisabled) => {
+const toggleSubmitButton = (text, isDisabled) => {
   formSubmitButton.disabled = isDisabled;
   formSubmitButton.textContent = text;
 };
@@ -26,27 +26,27 @@ const showSuccessMessage = () => {
   const closeButton = successElement.querySelector('.success__button');
 
 
-  const closeSuccessMessageOnEsc = (event) => {
+  const onSuccessMessageEscKeydown = (event) => {
     if (event.key === 'Escape') {
       closeSuccessMessage();
     }
   };
 
-  const closeSuccessMessageOnClick = (event) => {
+  const onSuccessMessageOutsideClick = (event) => {
     if (!event.target.closest('.success__inner')) {
       closeSuccessMessage();
     }
   };
 
-  const closeSuccessMessage = () => {
+  function closeSuccessMessage() {
     successElement.remove();
-    document.removeEventListener('keydown', closeSuccessMessageOnEsc);
-    document.removeEventListener('click', closeSuccessMessageOnClick);
-  };
+    document.removeEventListener('keydown', onSuccessMessageEscKeydown);
+    document.removeEventListener('click', onSuccessMessageOutsideClick);
+  }
 
   closeButton.addEventListener('click', closeSuccessMessage);
-  document.addEventListener('keydown', closeSuccessMessageOnEsc);
-  document.addEventListener('click', closeSuccessMessageOnClick);
+  document.addEventListener('keydown', onSuccessMessageEscKeydown);
+  document.addEventListener('click', onSuccessMessageOutsideClick);
 };
 
 
@@ -75,11 +75,11 @@ const showErrorMessage = (message) => {
     }
   };
 
-  const closeErrorMessage = () => {
+  function closeErrorMessage() {
     errorElement.remove();
     document.removeEventListener('keydown', closeErrorMessageOnEsc);
     document.removeEventListener('click', closeErrorMessageOnClick);
-  };
+  }
 
   repeatButtonElement.addEventListener('click', closeErrorMessage);
   document.addEventListener('keydown', closeErrorMessageOnEsc);
@@ -92,14 +92,14 @@ const showErrorMessage = (message) => {
 const sendData = async (formData) => {
   const submitButtonElement = document.querySelector('.img-upload__submit');
   try {
-    disabledButton(SubmitButtonText.SENDING, true);
+    toggleSubmitButton(SubmitButtonText.SENDING, true);
     await postData(formData);
-    disabledButton(SubmitButtonText.IDLE, false);
+    toggleSubmitButton(SubmitButtonText.IDLE, false);
     showSuccessMessage();
     resetForm();
   } catch (error) {
     //console.error(error);
-    disabledButton(SubmitButtonText.IDLE, false);
+    toggleSubmitButton(SubmitButtonText.IDLE, false);
     showErrorMessage(error.message);
   } finally {
     submitButtonElement.disabled = false;
