@@ -25,7 +25,7 @@ const isHashtagsValid = (value) => {
   const fieldWrapper = hashtagInputElement.closest('.img-upload__field-wrapper');
 
   if (inputText.length === 0) {
-    fieldWrapper.classList.toggle('img-upload__field-wrapper--error');
+    fieldWrapper.classList.remove('img-upload__field-wrapper--error');
     return true;
   }
 
@@ -86,6 +86,10 @@ const initValidation = () => {
 const resetValidation = () => {
   errorMessage = '';
   pristine.reset();
+
+  document.querySelectorAll('.img-upload__field-wrapper--error').forEach((element) => {
+    element.classList.remove('img-upload__field-wrapper--error');
+  });
 };
 
 export { initValidation, resetValidation, pristine};

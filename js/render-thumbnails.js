@@ -22,10 +22,10 @@ const addPictures = (photos) => {
       openFullSizeView(photo);
     });
 
-    pictureFragmentElement.appendChild(pictureElement);
+    pictureFragmentElement.append(pictureElement);
   });
 
-  picturesContainerElement.appendChild(pictureFragmentElement);
+  picturesContainerElement.append(pictureFragmentElement);
 };
 
 export { addPictures };
