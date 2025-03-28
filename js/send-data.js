@@ -26,27 +26,27 @@ const showSuccessMessage = () => {
   const closeButton = successElement.querySelector('.success__button');
 
 
-  const onSuccessMessageEscKeydown = (event) => {
+  const onDocumentEscKeydown = (event) => {
     if (event.key === 'Escape') {
-      closeSuccessMessage();
+      onCloseButtonClick();
     }
   };
 
-  const onSuccessMessageOutsideClick = (event) => {
+  const ononDocumentClick = (event) => {
     if (!event.target.closest('.success__inner')) {
-      closeSuccessMessage();
+      onCloseButtonClick();
     }
   };
 
-  function closeSuccessMessage() {
+  function onCloseButtonClick() {
     successElement.remove();
-    document.removeEventListener('keydown', onSuccessMessageEscKeydown);
-    document.removeEventListener('click', onSuccessMessageOutsideClick);
+    document.removeEventListener('keydown', onDocumentEscKeydown);
+    document.removeEventListener('click', ononDocumentClick);
   }
 
-  closeButton.addEventListener('click', closeSuccessMessage);
-  document.addEventListener('keydown', onSuccessMessageEscKeydown);
-  document.addEventListener('click', onSuccessMessageOutsideClick);
+  closeButton.addEventListener('click', onCloseButtonClick);
+  document.addEventListener('keydown', onDocumentEscKeydown);
+  document.addEventListener('click', ononDocumentClick);
 };
 
 
@@ -65,23 +65,23 @@ const showErrorMessage = (message) => {
 
   const onErrorMessageEscKeydown = (event) => {
     if (event.key === 'Escape') {
-      closeErrorMessage();
+      onRepeatButtonClick();
     }
   };
 
   const onErrorMessageClick = (event) => {
     if (!event.target.closest('.error__inner')) {
-      closeErrorMessage();
+      onRepeatButtonClick();
     }
   };
 
-  function closeErrorMessage() {
+  function onRepeatButtonClick() {
     errorElement.remove();
     document.removeEventListener('keydown', onErrorMessageEscKeydown);
     document.removeEventListener('click', onErrorMessageClick);
   }
 
-  repeatButtonElement.addEventListener('click', closeErrorMessage);
+  repeatButtonElement.addEventListener('click', onRepeatButtonClick);
   document.addEventListener('keydown', onErrorMessageEscKeydown);
   document.addEventListener('click', onErrorMessageClick);
 };

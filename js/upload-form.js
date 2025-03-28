@@ -37,7 +37,7 @@ const onDocumentKeydown = (evt) => {
       evt.stopPropagation();
     } else {
       uploadFormElement.reset();
-      onPhotoEditorCloseClick();
+      onPhotoEditorCloseButtonClick();
     }
   }
 };
@@ -51,18 +51,18 @@ const initUploadModal = () => {
     photoEditorElement.classList.remove('hidden');
     pageBodyElement.classList.add('modal-open');
 
-    photoEditorCloseButtonElement.addEventListener('click', onPhotoEditorCloseClick);
+    photoEditorCloseButtonElement.addEventListener('click', onPhotoEditorCloseButtonClick);
     document.addEventListener('keydown', onDocumentKeydown);
   });
 };
 
 
-function onPhotoEditorCloseClick() {
+function onPhotoEditorCloseButtonClick() {
   photoEditorElement.classList.add('hidden');
   pageBodyElement.classList.remove('modal-open');
 
   document.removeEventListener('keydown', onDocumentKeydown);
-  photoEditorCloseButtonElement.removeEventListener('click', onPhotoEditorCloseClick);
+  photoEditorCloseButtonElement.removeEventListener('click', onPhotoEditorCloseButtonClick);
 
   resetEffects();
   resetScale();
@@ -76,7 +76,7 @@ const resetForm = () => {
   uploadFormElement.reset();
   document.querySelector('.scale__control--value').value = '100%';
   document.querySelector('#effect-none').checked = true;
-  onPhotoEditorCloseClick();
+  onPhotoEditorCloseButtonClick();
 };
 
 uploadFormElement.addEventListener('submit', (event) => {
