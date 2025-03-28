@@ -57,18 +57,18 @@ const onCommentsLoaderClick = () => {
 };
 
 // Закрывает окно
-const onСloseButtonClose = () => {
+const onCloseButtonClick = () => {
   bigPictureElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
 
   commentsLoaderElement.removeEventListener('click', onCommentsLoaderClick);
-  closeButtonElement.removeEventListener('click', onСloseButtonClose);
+  closeButtonElement.removeEventListener('click', onCloseButtonClick);
   document.removeEventListener('keydown', onDocumentEscKeydown);
 };
 
 function onDocumentEscKeydown(evt) {
   if (evt.key === 'Escape') {
-    onСloseButtonClose();
+    onCloseButtonClick();
   }
 }
 
@@ -95,7 +95,7 @@ const openFullSizeView = ({ url, likes, comments, description }) => {
   renderComments(comments);
 
   commentsLoaderElement.addEventListener('click', onCommentsLoaderClick);
-  closeButtonElement.addEventListener('click', onСloseButtonClose);
+  closeButtonElement.addEventListener('click', onCloseButtonClick);
   document.addEventListener('keydown', onDocumentEscKeydown);
 };
 
