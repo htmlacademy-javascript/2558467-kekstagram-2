@@ -63,13 +63,13 @@ const showErrorMessage = (message) => {
   errorTitle.style.lineHeight = '30px';
   errorTitle.textContent += ` : ${message}`;
 
-  const closeErrorMessageOnEsc = (event) => {
+  const onErrorMessageEscKeydown = (event) => {
     if (event.key === 'Escape') {
       closeErrorMessage();
     }
   };
 
-  const closeErrorMessageOnClick = (event) => {
+  const onErrorMessageClick = (event) => {
     if (!event.target.closest('.error__inner')) {
       closeErrorMessage();
     }
@@ -77,20 +77,19 @@ const showErrorMessage = (message) => {
 
   function closeErrorMessage() {
     errorElement.remove();
-    document.removeEventListener('keydown', closeErrorMessageOnEsc);
-    document.removeEventListener('click', closeErrorMessageOnClick);
+    document.removeEventListener('keydown', onErrorMessageEscKeydown);
+    document.removeEventListener('click', onErrorMessageClick);
   }
 
   repeatButtonElement.addEventListener('click', closeErrorMessage);
-  document.addEventListener('keydown', closeErrorMessageOnEsc);
-  document.addEventListener('click', closeErrorMessageOnClick);
+  document.addEventListener('keydown', onErrorMessageEscKeydown);
+  document.addEventListener('click', onErrorMessageClick);
 };
 
 
 //Отправляет данные
 
 const sendData = async (formData) => {
-  const submitButtonElement = document.querySelector('.img-upload__submit');
   try {
     toggleSubmitButton(SubmitButtonText.SENDING, true);
     await postData(formData);
@@ -102,7 +101,7 @@ const sendData = async (formData) => {
     toggleSubmitButton(SubmitButtonText.IDLE, false);
     showErrorMessage(error.message);
   } finally {
-    submitButtonElement.disabled = false;
+    formSubmitButton.disabled = false;
   }
 };
 

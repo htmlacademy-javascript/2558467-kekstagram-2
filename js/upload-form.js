@@ -37,7 +37,7 @@ const onDocumentKeydown = (evt) => {
       evt.stopPropagation();
     } else {
       uploadFormElement.reset();
-      closePhotoEditor();
+      onPhotoEditorCloseClick();
     }
   }
 };
@@ -51,18 +51,18 @@ const initUploadModal = () => {
     photoEditorElement.classList.remove('hidden');
     pageBodyElement.classList.add('modal-open');
 
-    photoEditorCloseButtonElement.addEventListener('click', closePhotoEditor);
+    photoEditorCloseButtonElement.addEventListener('click', onPhotoEditorCloseClick);
     document.addEventListener('keydown', onDocumentKeydown);
   });
 };
 
 
-function closePhotoEditor() {
+function onPhotoEditorCloseClick() {
   photoEditorElement.classList.add('hidden');
   pageBodyElement.classList.remove('modal-open');
 
   document.removeEventListener('keydown', onDocumentKeydown);
-  photoEditorCloseButtonElement.removeEventListener('click', closePhotoEditor);
+  photoEditorCloseButtonElement.removeEventListener('click', onPhotoEditorCloseClick);
 
   resetEffects();
   resetScale();
@@ -76,7 +76,7 @@ const resetForm = () => {
   uploadFormElement.reset();
   document.querySelector('.scale__control--value').value = '100%';
   document.querySelector('#effect-none').checked = true;
-  closePhotoEditor();
+  onPhotoEditorCloseClick();
 };
 
 uploadFormElement.addEventListener('submit', (event) => {

@@ -10,7 +10,7 @@ const getRandom = (a, b) => {
 const getRandomElement = (elements) => elements[getRandom(0, elements.length - 1)];
 
 
-//
+// Склоняет слова
 const numDecline = (num, nominative, genitiveSingular, genitivePlural) => {
   if (num % 10 === 0 || num % 100 > 4 && num % 100 < 21) {
     return genitivePlural;
@@ -20,4 +20,13 @@ const numDecline = (num, nominative, genitiveSingular, genitivePlural) => {
     : genitiveSingular;
 };
 
-export { getRandom, getRandomElement, numDecline };
+// Устраняет дребезг
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+export { getRandom, getRandomElement, numDecline, debounce };

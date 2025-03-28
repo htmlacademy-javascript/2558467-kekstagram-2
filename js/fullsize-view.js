@@ -40,7 +40,7 @@ const createCommentElement = ({ avatar, message, name }) => {
 
 // Делает комментарии
 
-const loadMoreComments = () => {
+const onCommentsLoaderClick = () => {
   const nextComments = currentComments.slice(commentsShown, commentsShown + COMMENTS_PER_PAGE);
 
   const fragment = document.createDocumentFragment();
@@ -57,18 +57,18 @@ const loadMoreComments = () => {
 };
 
 // Закрывает окно
-const closeFullSizeView = () => {
+const onBigPictureClose = () => {
   bigPictureElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
 
-  commentsLoaderElement.removeEventListener('click', loadMoreComments);
-  closeButtonElement.removeEventListener('click', closeFullSizeView);
-  document.removeEventListener('keydown', onDocumentKeydown);
+  commentsLoaderElement.removeEventListener('click', onCommentsLoaderClick);
+  closeButtonElement.removeEventListener('click', onBigPictureClose);
+  document.removeEventListener('keydown', onDocumentEscKeydown);
 };
 
-function onDocumentKeydown(evt) {
+function onDocumentEscKeydown(evt) {
   if (evt.key === 'Escape') {
-    closeFullSizeView();
+    onBigPictureClose();
   }
 }
 
@@ -77,7 +77,7 @@ const renderComments = (comments) => {
   currentComments = comments;
   commentsShown = 0;
 
-  loadMoreComments();
+  onCommentsLoaderClick();
 
   commentsLoaderElement.classList.toggle('hidden', currentComments.length <= COMMENTS_PER_PAGE);
 };
@@ -94,9 +94,9 @@ const openFullSizeView = ({ url, likes, comments, description }) => {
 
   renderComments(comments);
 
-  commentsLoaderElement.addEventListener('click', loadMoreComments);
-  closeButtonElement.addEventListener('click', closeFullSizeView);
-  document.addEventListener('keydown', onDocumentKeydown);
+  commentsLoaderElement.addEventListener('click', onCommentsLoaderClick);
+  closeButtonElement.addEventListener('click', onBigPictureClose);
+  document.addEventListener('keydown', onDocumentEscKeydown);
 };
 
 
