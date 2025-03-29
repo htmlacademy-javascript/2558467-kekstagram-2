@@ -5,6 +5,7 @@ import { resetForm } from './upload-form.js';
 // Блокирует кнопку во вркмя отправки
 
 const formSubmitButtonElement = document.querySelector('.img-upload__submit');
+const bodyElement = document.body;
 
 const SubmitButtonText = {
   IDLE: 'Опубликовать',
@@ -16,35 +17,54 @@ const toggleSubmitButton = (text, isDisabled) => {
   formSubmitButtonElement.textContent = text;
 };
 
+// Обработчик по клавише Escape
+const onDocumentKeydown = (evt) => {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    const successElement = document.querySelector('.success');
+    const errorElement = document.querySelector('.error');
+
+    if (successElement) {
+      closeMessage(successElement);
+    }
+    if (errorElement) {
+      closeMessage(errorElement);
+    }
+  }
+};
+
+// Обработчик по клику
+const onDocumentClick = (evt) => {
+  const successElement = document.querySelector('.success');
+  const errorElement = document.querySelector('.error');
+
+  if (successElement && !evt.target.closest('.success__inner')) {
+    closeMessage(successElement);
+  }
+  if (errorElement && !evt.target.closest('.error__inner')) {
+    closeMessage(errorElement);
+  }
+};
+
+// Закрывает сообщение
+function closeMessage(messageElement) {
+  if (messageElement) {
+    messageElement.remove();
+    document.removeEventListener('keydown', onDocumentKeydown);
+    document.removeEventListener('click', onDocumentClick);
+  }
+}
+
 // Показывает сообщение об успехе
 
 const showSuccessMessage = () => {
   const successTemplateElement = document.querySelector('#success').content.cloneNode(true);
-  document.body.append(successTemplateElement);
+  bodyElement.append(successTemplateElement);
 
   const successElement = document.querySelector('.success');
   const closeButtonElement = successElement.querySelector('.success__button');
 
-
-  const onDocumentKeydown = (event) => {
-    if (event.key === 'Escape') {
-      onCloseButtonClick();
-    }
-  };
-
-  const onDocumentClick = (event) => {
-    if (!event.target.closest('.success__inner')) {
-      onCloseButtonClick();
-    }
-  };
-
-  function onCloseButtonClick() {
-    successElement.remove();
-    document.removeEventListener('keydown', onDocumentKeydown);
-    document.removeEventListener('click', onDocumentClick);
-  }
-
-  closeButtonElement.addEventListener('click', onCloseButtonClick);
+  closeButtonElement.addEventListener('click', () => closeMessage(successElement));
   document.addEventListener('keydown', onDocumentKeydown);
   document.addEventListener('click', onDocumentClick);
 };
@@ -57,33 +77,15 @@ const showErrorMessage = (message) => {
   document.body.append(errorTemplateElement);
 
   const errorElement = document.querySelector('.error');
-  const repeatButtonElement = errorElement.querySelector('.error__button');
+  const closeButtonElement = errorElement.querySelector('.error__button');
   const errorTitleElement = errorElement.querySelector('.error__title');
 
   errorTitleElement.style.lineHeight = '30px';
   errorTitleElement.textContent += ` : ${message}`;
 
-  const onErrorMessageEscKeydown = (event) => {
-    if (event.key === 'Escape') {
-      onRepeatButtonClick();
-    }
-  };
-
-  const onErrorMessageClick = (event) => {
-    if (!event.target.closest('.error__inner')) {
-      onRepeatButtonClick();
-    }
-  };
-
-  function onRepeatButtonClick() {
-    errorElement.remove();
-    document.removeEventListener('keydown', onErrorMessageEscKeydown);
-    document.removeEventListener('click', onErrorMessageClick);
-  }
-
-  repeatButtonElement.addEventListener('click', onRepeatButtonClick);
-  document.addEventListener('keydown', onErrorMessageEscKeydown);
-  document.addEventListener('click', onErrorMessageClick);
+  closeButtonElement.addEventListener('click', () => closeMessage(errorElement));
+  document.addEventListener('keydown', onDocumentKeydown);
+  document.addEventListener('click', onDocumentClick);
 };
 
 
@@ -97,7 +99,6 @@ const sendData = async (formData) => {
     showSuccessMessage();
     resetForm();
   } catch (error) {
-    //console.error(error);
     toggleSubmitButton(SubmitButtonText.IDLE, false);
     showErrorMessage(error.message);
   } finally {
