@@ -21,28 +21,18 @@ const toggleSubmitButton = (text, isDisabled) => {
 const onDocumentKeydown = (evt) => {
   if (evt.key === 'Escape') {
     evt.preventDefault();
-    const successElement = document.querySelector('.success');
-    const errorElement = document.querySelector('.error');
-
-    if (successElement) {
-      closeMessage(successElement);
-    }
-    if (errorElement) {
-      closeMessage(errorElement);
+    const messageElement = document.querySelector('.success') || document.querySelector('.error');
+    if (messageElement) {
+      closeMessage(messageElement);
     }
   }
 };
 
 // Обработчик по клику
 const onDocumentClick = (evt) => {
-  const successElement = document.querySelector('.success');
-  const errorElement = document.querySelector('.error');
-
-  if (successElement && !evt.target.closest('.success__inner')) {
-    closeMessage(successElement);
-  }
-  if (errorElement && !evt.target.closest('.error__inner')) {
-    closeMessage(errorElement);
+  const messageElement = document.querySelector('.success') || document.querySelector('.error');
+  if (messageElement && !evt.target.closest('.success__inner') && !evt.target.closest('.error__inner')) {
+    closeMessage(messageElement);
   }
 };
 
