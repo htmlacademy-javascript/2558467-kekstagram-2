@@ -19,5 +19,3 @@ fileInputElement.addEventListener('change', () => {
     });
   }
 });
-
-export { fileInputElement };
