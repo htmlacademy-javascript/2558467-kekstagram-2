@@ -4,6 +4,7 @@ import { initScale } from './scale.js';
 import { initEffects } from './effect.js';
 import { getData } from './fetch-data.js';
 import { showFilters } from './filters.js';
+import './upload-photo.js';
 
 initScale();
 initEffects();

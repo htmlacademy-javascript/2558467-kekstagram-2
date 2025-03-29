@@ -3,6 +3,7 @@ import { numDecline } from './util.js';
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_HASHTAG_COUNT = 5;
 const MAX_COMMENT_LENGTH = 140;
+const HASHTAG_LENGTH_REGEX = /^#[a-zа-яё0-9]{1,19}$/i;
 
 let errorMessage = '';
 let isValidationInitialized = false;
@@ -58,7 +59,7 @@ const isHashtagsValid = (value) => {
         MAX_HASHTAG_COUNT, 'хештега', 'хештегов', 'хештегов')}`,
     },
     {
-      check: hashtags.some((tag) => !/^#[a-zа-яё0-9]{1,19}$/i.test(tag)),
+      check: hashtags.some((tag) => !HASHTAG_LENGTH_REGEX.test(tag)),
       error: 'Хештег содержит недопустимые символы',
     },
   ];
@@ -82,7 +83,6 @@ const initValidation = () => {
   }
 };
 
-
 const resetValidation = () => {
   errorMessage = '';
   pristine.reset();
@@ -92,4 +92,4 @@ const resetValidation = () => {
   });
 };
 
-export { initValidation, resetValidation, pristine};
+export { initValidation, resetValidation, pristine };
