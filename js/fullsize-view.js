@@ -8,7 +8,6 @@ const commentsTotalCountElement = bigPictureElement.querySelector('.social__comm
 const commentsContainerElement = bigPictureElement.querySelector('.social__comments');
 const photoDescriptionElement = bigPictureElement.querySelector('.social__caption');
 const closeButtonElement = bigPictureElement.querySelector('.big-picture__cancel');
-
 const commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
 
 const bodyElement = document.body;
@@ -56,21 +55,36 @@ const loadMoreComments = () => {
   }
 };
 
+// Обработчик загрузки комментариев
+const onCommentsLoaderClick = (evt) => {
+  evt.preventDefault();
+  loadMoreComments();
+};
+
+// Обработчик закрытия окна по клику
+const onCloseButtonClick = (evt) => {
+  evt.preventDefault();
+  closeFullSizeView();
+};
+
+// Обработчик закрытия окна по клику по клавише
+const onDocumentKeydown = (evt) => {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    closeFullSizeView();
+  }
+};
+
 // Закрывает окно
-const closeFullSizeView = () => {
+function closeFullSizeView() {
   bigPictureElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
 
-  commentsLoaderElement.removeEventListener('click', loadMoreComments);
-  closeButtonElement.removeEventListener('click', closeFullSizeView);
+  commentsLoaderElement.removeEventListener('click', onCommentsLoaderClick);
+  closeButtonElement.removeEventListener('click', onCloseButtonClick);
   document.removeEventListener('keydown', onDocumentKeydown);
-};
-
-function onDocumentKeydown(evt) {
-  if (evt.key === 'Escape') {
-    closeFullSizeView();
-  }
 }
+
 
 const renderComments = (comments) => {
   commentsContainerElement.innerHTML = '';
@@ -94,8 +108,8 @@ const openFullSizeView = ({ url, likes, comments, description }) => {
 
   renderComments(comments);
 
-  commentsLoaderElement.addEventListener('click', loadMoreComments);
-  closeButtonElement.addEventListener('click', closeFullSizeView);
+  commentsLoaderElement.addEventListener('click', onCommentsLoaderClick);
+  closeButtonElement.addEventListener('click', onCloseButtonClick);
   document.addEventListener('keydown', onDocumentKeydown);
 };
 

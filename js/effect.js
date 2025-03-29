@@ -3,6 +3,7 @@ const effectLevelSliderElement = document.querySelector('.effect-level__slider')
 const effectsElements = document.querySelectorAll('.effects__radio');
 const effectContainerElement = document.querySelector('.img-upload__effect-level');
 const imgPreviewElement = document.querySelector('.img-upload__preview img');
+const defaultEffectElement = document.querySelector('#effect-none');
 
 const Effects = {
   CHROME: { filter: 'grayscale', min: 0, max: 1, step: 0.1, unit: '' },
@@ -43,9 +44,8 @@ const resetEffects = () => {
     effectLevelValueElement.value = 0;
   }
 
-  const defaultEffect = document.querySelector('#effect-none');
-  if (defaultEffect) {
-    defaultEffect.checked = true;
+  if (defaultEffectElement) {
+    defaultEffectElement.checked = true;
   }
 
   effectContainerElement.classList.add('hidden');
@@ -66,8 +66,8 @@ const initEffects = () => {
   });
 
   effectLevelSliderElement.noUiSlider.on('update', (values) => {
-    const selectedEffect = document.querySelector('.effects__radio:checked')?.value.toUpperCase();
-    const effect = Effects[selectedEffect] || null;
+    const selectedEffectElement = document.querySelector('.effects__radio:checked')?.value.toUpperCase();
+    const effect = Effects[selectedEffectElement] || null;
 
     if (effect) {
       effectLevelValueElement.value = values[0];

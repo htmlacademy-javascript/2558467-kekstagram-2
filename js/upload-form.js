@@ -11,6 +11,8 @@ const photoEditorElement = uploadFormElement.querySelector('.img-upload__overlay
 const photoEditorCloseButtonElement = photoEditorElement.querySelector('#upload-cancel');
 const hashtagInputElement = uploadFormElement.querySelector('.text__hashtags');
 const commentInputElement = uploadFormElement.querySelector('.text__description');
+const scaleControlValueElement = document.querySelector('.scale__control--value');
+const effectNoneElement = document.querySelector('#effect-none');
 
 const clearFormFields = () => {
   hashtagInputElement.value = '';
@@ -26,10 +28,10 @@ const clearFormFields = () => {
 
 const onDocumentKeydown = (evt) => {
   if (evt.key === 'Escape') {
-    const errorMessage = document.querySelector('.error');
+    const errorMessageElement = document.querySelector('.error');
 
-    if (errorMessage) {
-      errorMessage.remove();
+    if (errorMessageElement) {
+      errorMessageElement.remove();
       return;
     }
 
@@ -37,7 +39,7 @@ const onDocumentKeydown = (evt) => {
       evt.stopPropagation();
     } else {
       uploadFormElement.reset();
-      closePhotoEditor();
+      onPhotoEditorCloseButtonClick();
     }
   }
 };
@@ -51,18 +53,18 @@ const initUploadModal = () => {
     photoEditorElement.classList.remove('hidden');
     pageBodyElement.classList.add('modal-open');
 
-    photoEditorCloseButtonElement.addEventListener('click', closePhotoEditor);
+    photoEditorCloseButtonElement.addEventListener('click', onPhotoEditorCloseButtonClick);
     document.addEventListener('keydown', onDocumentKeydown);
   });
 };
 
 
-function closePhotoEditor() {
+function onPhotoEditorCloseButtonClick() {
   photoEditorElement.classList.add('hidden');
   pageBodyElement.classList.remove('modal-open');
 
   document.removeEventListener('keydown', onDocumentKeydown);
-  photoEditorCloseButtonElement.removeEventListener('click', closePhotoEditor);
+  photoEditorCloseButtonElement.removeEventListener('click', onPhotoEditorCloseButtonClick);
 
   resetEffects();
   resetScale();
@@ -74,9 +76,9 @@ function closePhotoEditor() {
 
 const resetForm = () => {
   uploadFormElement.reset();
-  document.querySelector('.scale__control--value').value = '100%';
-  document.querySelector('#effect-none').checked = true;
-  closePhotoEditor();
+  scaleControlValueElement.value = '100%';
+  effectNoneElement.checked = true;
+  onPhotoEditorCloseButtonClick();
 };
 
 uploadFormElement.addEventListener('submit', (event) => {

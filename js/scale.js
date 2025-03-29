@@ -13,7 +13,7 @@ const updateScale = () => {
   imgPreviewElement.style.transform = `scale(${scale / 100})`;
 };
 
-const onScaleButtonClick = (event) => {
+const onScaleControlsClick = (event) => {
   if (event.target.classList.contains('scale__control--smaller')) {
     scale = Math.max(MIN_SCALE, scale - STEP);
   } else if (event.target.classList.contains('scale__control--bigger')) {
@@ -23,7 +23,7 @@ const onScaleButtonClick = (event) => {
 };
 
 const initScale = () => {
-  scaleControlsElement.addEventListener('click', onScaleButtonClick);
+  scaleControlsElement.addEventListener('click', onScaleControlsClick);
   updateScale();
 };
 
