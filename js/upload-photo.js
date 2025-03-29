@@ -1,4 +1,4 @@
-const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+const FILE_TYPES = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
 
 const fileInputElement = document.querySelector('#upload-file');
 const previewImageElement = document.querySelector('.img-upload__preview img');
