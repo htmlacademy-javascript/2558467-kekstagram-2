@@ -1,7 +1,6 @@
 import { postData } from './api.js';
 import { resetForm } from './upload-form.js';
 
-
 // Блокирует кнопку во вркмя отправки
 
 const formSubmitButtonElement = document.querySelector('.img-upload__submit');
@@ -46,7 +45,6 @@ function closeMessage(messageElement) {
 }
 
 // Показывает сообщение об успехе
-
 const showSuccessMessage = () => {
   const successTemplateElement = document.querySelector('#success').content.cloneNode(true);
   bodyElement.append(successTemplateElement);
@@ -59,9 +57,7 @@ const showSuccessMessage = () => {
   document.addEventListener('click', onDocumentClick);
 };
 
-
 // Покажет сообщение об ошибке при отправке
-
 const showErrorMessage = (message) => {
   const errorTemplateElement = document.querySelector('#error').content.cloneNode(true);
   document.body.append(errorTemplateElement);
@@ -78,9 +74,7 @@ const showErrorMessage = (message) => {
   document.addEventListener('click', onDocumentClick);
 };
 
-
 //Отправляет данные
-
 const sendData = async (formData) => {
   try {
     toggleSubmitButton(SubmitButtonText.SENDING, true);

@@ -1,7 +1,7 @@
-const RANDOM_PHOTOS_COUNT = 10;
-
 import { addPictures } from './render-thumbnails.js';
 import { debounce } from './util.js';
+
+const RANDOM_PHOTOS_COUNT = 10;
 
 const filtersContainerElement = document.querySelector('.img-filters');
 const defaultFilterBtnElement = document.getElementById('filter-default');
@@ -11,7 +11,6 @@ const filerButtonElements = document.querySelectorAll('.img-filters__button');
 
 let originalPhotos = [];
 let activeFilterId = 'filter-default';
-
 
 // Показывает фильтры
 const showFilters = (photos) => {

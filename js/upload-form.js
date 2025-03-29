@@ -25,7 +25,6 @@ const clearFormFields = () => {
   commentWrapper?.classList.remove('img-upload__field-wrapper--error');
 };
 
-
 const onDocumentKeydown = (evt) => {
   if (evt.key === 'Escape') {
     const errorMessageElement = document.querySelector('.error');
@@ -57,7 +56,6 @@ const initUploadModal = () => {
     document.addEventListener('keydown', onDocumentKeydown);
   });
 };
-
 
 function onPhotoEditorCloseButtonClick() {
   photoEditorElement.classList.add('hidden');

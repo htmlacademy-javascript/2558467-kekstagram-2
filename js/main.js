@@ -9,7 +9,6 @@ import './upload-photo.js';
 initScale();
 initEffects();
 
-
 getData().then((photos) => {
   if (photos) {
     addPictures(photos);

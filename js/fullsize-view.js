@@ -15,7 +15,6 @@ const bodyElement = document.body;
 let currentComments = [];
 let commentsShown = 0;
 
-
 // Создаёт элемент  комментария фотокарточки
 const createCommentElement = ({ avatar, message, name }) => {
   const commentElement = document.createElement('li');
@@ -35,7 +34,6 @@ const createCommentElement = ({ avatar, message, name }) => {
 
   return commentElement;
 };
-
 
 // Делает комментарии
 
@@ -85,7 +83,6 @@ function closeFullSizeView() {
   document.removeEventListener('keydown', onDocumentKeydown);
 }
 
-
 const renderComments = (comments) => {
   commentsContainerElement.innerHTML = '';
   currentComments = comments;
@@ -95,7 +92,6 @@ const renderComments = (comments) => {
 
   commentsLoaderElement.classList.toggle('hidden', currentComments.length <= COMMENTS_PER_PAGE);
 };
-
 
 // Открывает окно
 const openFullSizeView = ({ url, likes, comments, description }) => {
@@ -112,6 +108,5 @@ const openFullSizeView = ({ url, likes, comments, description }) => {
   closeButtonElement.addEventListener('click', onCloseButtonClick);
   document.addEventListener('keydown', onDocumentKeydown);
 };
-
 
 export { openFullSizeView };
