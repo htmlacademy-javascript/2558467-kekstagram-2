@@ -4,7 +4,7 @@ import { resetForm } from './upload-form.js';
 
 // Блокирует кнопку во вркмя отправки
 
-const formSubmitButton = document.querySelector('.img-upload__submit');
+const formSubmitButtonElement = document.querySelector('.img-upload__submit');
 
 const SubmitButtonText = {
   IDLE: 'Опубликовать',
@@ -12,27 +12,27 @@ const SubmitButtonText = {
 };
 
 const toggleSubmitButton = (text, isDisabled) => {
-  formSubmitButton.disabled = isDisabled;
-  formSubmitButton.textContent = text;
+  formSubmitButtonElement.disabled = isDisabled;
+  formSubmitButtonElement.textContent = text;
 };
 
 // Показывает сообщение об успехе
 
 const showSuccessMessage = () => {
-  const successTemplate = document.querySelector('#success').content.cloneNode(true);
-  document.body.append(successTemplate);
+  const successTemplateElement = document.querySelector('#success').content.cloneNode(true);
+  document.body.append(successTemplateElement);
 
   const successElement = document.querySelector('.success');
-  const closeButton = successElement.querySelector('.success__button');
+  const closeButtonElement = successElement.querySelector('.success__button');
 
 
-  const onDocumentEscKeydown = (event) => {
+  const onDocumentKeydown = (event) => {
     if (event.key === 'Escape') {
       onCloseButtonClick();
     }
   };
 
-  const ononDocumentClick = (event) => {
+  const onDocumentClick = (event) => {
     if (!event.target.closest('.success__inner')) {
       onCloseButtonClick();
     }
@@ -40,28 +40,28 @@ const showSuccessMessage = () => {
 
   function onCloseButtonClick() {
     successElement.remove();
-    document.removeEventListener('keydown', onDocumentEscKeydown);
-    document.removeEventListener('click', ononDocumentClick);
+    document.removeEventListener('keydown', onDocumentKeydown);
+    document.removeEventListener('click', onDocumentClick);
   }
 
-  closeButton.addEventListener('click', onCloseButtonClick);
-  document.addEventListener('keydown', onDocumentEscKeydown);
-  document.addEventListener('click', ononDocumentClick);
+  closeButtonElement.addEventListener('click', onCloseButtonClick);
+  document.addEventListener('keydown', onDocumentKeydown);
+  document.addEventListener('click', onDocumentClick);
 };
 
 
 // Покажет сообщение об ошибке при отправке
 
 const showErrorMessage = (message) => {
-  const errorTemplate = document.querySelector('#error').content.cloneNode(true);
-  document.body.append(errorTemplate);
+  const errorTemplateElement = document.querySelector('#error').content.cloneNode(true);
+  document.body.append(errorTemplateElement);
 
   const errorElement = document.querySelector('.error');
   const repeatButtonElement = errorElement.querySelector('.error__button');
-  const errorTitle = errorElement.querySelector('.error__title');
+  const errorTitleElement = errorElement.querySelector('.error__title');
 
-  errorTitle.style.lineHeight = '30px';
-  errorTitle.textContent += ` : ${message}`;
+  errorTitleElement.style.lineHeight = '30px';
+  errorTitleElement.textContent += ` : ${message}`;
 
   const onErrorMessageEscKeydown = (event) => {
     if (event.key === 'Escape') {
@@ -101,7 +101,7 @@ const sendData = async (formData) => {
     toggleSubmitButton(SubmitButtonText.IDLE, false);
     showErrorMessage(error.message);
   } finally {
-    formSubmitButton.disabled = false;
+    formSubmitButtonElement.disabled = false;
   }
 };
 

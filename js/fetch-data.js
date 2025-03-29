@@ -3,12 +3,12 @@ import { fetchData } from './api.js';
 // Покажет сообщение об ошибке при загрузке
 
 const showDataErrorMessage = (message) => {
-  const errorTemplate = document.querySelector('#data-error').content.cloneNode(true);
-  const errorMessageElement = errorTemplate.querySelector('.data-error');
-  const errorTitle = errorMessageElement.querySelector('.data-error__title');
+  const errorTemplateElement = document.querySelector('#data-error').content.cloneNode(true);
+  const errorMessageElement = errorTemplateElement.querySelector('.data-error');
+  const errorTitleElement = errorMessageElement.querySelector('.data-error__title');
 
-  errorTitle.textContent += ` : ${message}`;
-  document.body.append(errorTemplate);
+  errorTitleElement.textContent += ` : ${message}`;
+  document.body.append(errorTemplateElement);
 
   setTimeout(() => {
     if (errorMessageElement) {

@@ -11,6 +11,8 @@ const photoEditorElement = uploadFormElement.querySelector('.img-upload__overlay
 const photoEditorCloseButtonElement = photoEditorElement.querySelector('#upload-cancel');
 const hashtagInputElement = uploadFormElement.querySelector('.text__hashtags');
 const commentInputElement = uploadFormElement.querySelector('.text__description');
+const scaleControlValueElement = document.querySelector('.scale__control--value');
+const effectNoneElement = document.querySelector('#effect-none');
 
 const clearFormFields = () => {
   hashtagInputElement.value = '';
@@ -26,10 +28,10 @@ const clearFormFields = () => {
 
 const onDocumentKeydown = (evt) => {
   if (evt.key === 'Escape') {
-    const errorMessage = document.querySelector('.error');
+    const errorMessageElement = document.querySelector('.error');
 
-    if (errorMessage) {
-      errorMessage.remove();
+    if (errorMessageElement) {
+      errorMessageElement.remove();
       return;
     }
 
@@ -74,8 +76,8 @@ function onPhotoEditorCloseButtonClick() {
 
 const resetForm = () => {
   uploadFormElement.reset();
-  document.querySelector('.scale__control--value').value = '100%';
-  document.querySelector('#effect-none').checked = true;
+  scaleControlValueElement.value = '100%';
+  effectNoneElement.checked = true;
   onPhotoEditorCloseButtonClick();
 };
 

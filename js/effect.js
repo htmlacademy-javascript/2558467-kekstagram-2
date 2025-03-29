@@ -43,9 +43,9 @@ const resetEffects = () => {
     effectLevelValueElement.value = 0;
   }
 
-  const defaultEffect = document.querySelector('#effect-none');
-  if (defaultEffect) {
-    defaultEffect.checked = true;
+  const defaultEffectElement = document.querySelector('#effect-none');
+  if (defaultEffectElement) {
+    defaultEffectElement.checked = true;
   }
 
   effectContainerElement.classList.add('hidden');
@@ -66,8 +66,8 @@ const initEffects = () => {
   });
 
   effectLevelSliderElement.noUiSlider.on('update', (values) => {
-    const selectedEffect = document.querySelector('.effects__radio:checked')?.value.toUpperCase();
-    const effect = Effects[selectedEffect] || null;
+    const selectedEffectElement = document.querySelector('.effects__radio:checked')?.value.toUpperCase();
+    const effect = Effects[selectedEffectElement] || null;
 
     if (effect) {
       effectLevelValueElement.value = values[0];

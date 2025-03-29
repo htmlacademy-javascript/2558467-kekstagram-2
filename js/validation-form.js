@@ -17,9 +17,9 @@ const pristine = new Pristine(uploadFormElement, {
   errorTextClass: 'img-upload__error',
 });
 
-const onHashtagInputErrorMessage = () => errorMessage;
+const getErrorMessage = () => errorMessage;
 
-const onHashtagInputValidate = (value) => {
+const isHashtagsValid = (value) => {
   errorMessage = '';
   const inputText = value.toLowerCase().trim();
   const fieldWrapper = hashtagInputElement.closest('.img-upload__field-wrapper');
@@ -77,7 +77,7 @@ const onHashtagInputValidate = (value) => {
 const initValidation = () => {
   if (!isValidationInitialized) {
     pristine.addValidator(commentInputElement, (value) => value.length <= MAX_COMMENT_LENGTH, `Длина комментария не должна превышать ${MAX_COMMENT_LENGTH} символов`);
-    pristine.addValidator(hashtagInputElement, onHashtagInputValidate, onHashtagInputErrorMessage, false);
+    pristine.addValidator(hashtagInputElement, isHashtagsValid, getErrorMessage, false);
     isValidationInitialized = true;
   }
 };
